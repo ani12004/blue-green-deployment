@@ -1,0 +1,10 @@
+# Use a lightweight official NGINX image as the base
+FROM nginx:alpine
+
+# Copy the custom index.html from the green-server directory into the container's NGINX web root.
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose port 80 (standard HTTP port)
+EXPOSE 80
+
+# The default command (CMD) from the base NGINX image starts the server.
