@@ -1,11 +1,17 @@
 # Use a lightweight official NGINX image as the base
 FROM nginx:alpine
 
-# The NGINX web server serves files from /usr/share/nginx/html by default.
-# Copy the custom index.html from the blue-server directory into the container's NGINX web root.
+# Copy the custom index.html from the blue-server directory
 COPY index.html /usr/share/nginx/html/index.html
 
-# Expose port 80 (standard HTTP port)
-EXPOSE 3001
+# Expose port 3001 - The port the Blue container is listening on internally
+EXPOSE 3001 
 
-# The default command (CMD) from the base NGINX image starts the server.
+# Reconfigure NGINX to listen on 3001 instead of the default 80
+# This is a common requirement when changing the default port
+RUN echo "daemon off;" > /etc/nginx/nginx.conf \
+    && echo "events {}" >> /etc/nginx/nginx.conf \
+    && echo "http { include /etc/nginx/mime.types; server { listen 3001; root /usr/share/nginx/html; } }" >> /etc/nginx/nginx.conf
+    
+# Start NGINX
+CMD ["nginx"]
