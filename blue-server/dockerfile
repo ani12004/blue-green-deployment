@@ -6,6 +6,6 @@ FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 
 # Expose port 80 (standard HTTP port)
-EXPOSE 80
+EXPOSE 3001
 
 # The default command (CMD) from the base NGINX image starts the server.
