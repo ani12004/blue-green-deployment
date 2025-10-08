@@ -1,10 +1,16 @@
 # Use a lightweight official NGINX image as the base
 FROM nginx:alpine
 
-# Copy the custom index.html from the green-server directory into the container's NGINX web root.
+# Copy the custom index.html from the green-server directory
 COPY index.html /usr/share/nginx/html/index.html
 
-# Expose port 80 (standard HTTP port)
+# Expose port 3002 - The port the Green container is listening on internally
 EXPOSE 3002
 
-# The default command (CMD) from the base NGINX image starts the server.
+# Reconfigure NGINX to listen on 3002 instead of the default 80
+RUN echo "daemon off;" > /etc/nginx/nginx.conf \
+    && echo "events {}" >> /etc/nginx/nginx.conf \
+    && echo "http { include /etc/nginx/mime.types; server { listen 3002; root /usr/share/nginx/html; } }" >> /etc/nginx/nginx.conf
+
+# Start NGINX
+CMD ["nginx"]
