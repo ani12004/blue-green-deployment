@@ -1,0 +1,11 @@
+# Use a lightweight official NGINX image as the base
+FROM nginx:alpine
+
+# The NGINX web server serves files from /usr/share/nginx/html by default.
+# Copy the custom index.html from the blue-server directory into the container's NGINX web root.
+COPY index.html /usr/share/nginx/html/index.html
+
+# Expose port 80 (standard HTTP port)
+EXPOSE 80
+
+# The default command (CMD) from the base NGINX image starts the server.
